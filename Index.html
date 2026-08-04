@@ -663,8 +663,9 @@
   </main>
 
   <footer class="border-t border-[#2a2a2a] py-5">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
       <span class="mono text-[10px] tracking-[0.3em] text-zinc-700">KAVOIR // SYSTEMS</span>
+      <a href="privacy-policy.html" class="mono text-[10px] tracking-[0.3em] text-zinc-500 hover:text-[#960018] transition-colors">PRIVACY POLICY</a>
       <span class="mono text-[10px] tracking-[0.3em] text-zinc-700">v2.4.1 - OPERATIONAL</span>
     </div>
   </footer>
@@ -1020,10 +1021,6 @@
             <span class="absolute -top-2 -right-6 sm:-right-8 text-2xl sm:text-3xl font-bold text-[#960018]">%</span>
           </div>
           <p class="mt-6 text-base sm:text-lg font-semibold tracking-wide ${result.toneClass}">${result.subheadline}</p>
-          <p class="mt-5 text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
-            📩 Check your inbox for the full protocol — we just sent it to the email you entered.
-            <br>Don't see it after a few minutes? Check your <span class="text-zinc-300">spam or promotions folder</span>, it sometimes lands there.
-          </p>
         </div>
 
         <div class="relative border border-[#2a2a2a] bg-[#141414]/80 p-6 sm:p-10">
@@ -1044,6 +1041,13 @@
               `).join('')}
             </ul>
           </div>
+        </div>
+
+        <div class="result-section text-center mt-8" data-delay="900">
+          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
+            📩 Check your inbox for the full protocol. We just sent it to the email you entered.
+            <br>Don't see it after a few minutes? Check your <span class="text-zinc-300">spam or promotions folder</span>, it sometimes lands there.
+          </p>
         </div>
       `;
 
