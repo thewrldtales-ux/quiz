@@ -564,8 +564,7 @@
     const results = {
       A: {
         score: 22, subheadline: 'Classification: CRITICAL SYSTEM FAILURE.', toneClass: 'text-[#960018]',
-        problem: 'You are running on fumes, and your hardware is taking damage. You wake up tired, you crash hard at 2 PM, and by the evening, your cognitive capacity is equivalent to someone who is legally intoxicated. You are not "getting older." Your biological system is in a state of critical failure, bleeding energy through four major gaps simultaneously.',
-        agitation: 'You probably think the solution is to sleep more on the weekends. Or to drink more water. Or to try a new diet. So you try them, and nothing changes. Why? Because you are treating the symptoms, not the architecture. Every morning you reach for coffee before your eyes even adjust to the light. You are jamming the lock on your fatigue signals with caffeine, letting the debt pile up, and wondering why it crashes you in the afternoon. You eat a carb-heavy lunch that switches off your brain\'s "awake" chemicals. And your phone, a device engineered to mine your attention, is sitting on your desk, quietly draining 20% of your cognitive capacity just by existing. You are trying to drive a Ferrari with the emergency brake engaged, pouring more gas in the tank, and wondering why the engine is burning out. Willpower cannot fix a mechanical failure. You cannot think your way past a biological deficit.',
+        problem: 'You are running on fumes, and your hardware is taking damage. You wake up tired, crash hard at 2 PM, and by evening your cognitive capacity resembles someone legally intoxicated. This is not "getting older," it\'s a system bleeding energy through four major gaps simultaneously, and coffee, water, and willpower cannot fix a mechanical failure. You are jamming the lock on your fatigue signals with caffeine, eating meals that switch off your brain\'s "awake" chemicals, and carrying a device engineered to mine your attention. You are driving with the emergency brake engaged, pouring in more fuel, and wondering why the engine keeps burning out.',
         solution: 'You need to stop plugging holes and rebuild the system. The Phoenix Protocol is the engineering manual for your biology. It does not offer mantras or vision boards. It offers protocols.',
         bullets: [
           'Protocol 1.0: The Hydration & Photonic Trigger to force your circadian rhythm back online.',
@@ -576,8 +575,7 @@
       },
       B: {
         score: 48, subheadline: 'Classification: SYSTEM COMPROMISED.', toneClass: 'text-[#960018]',
-        problem: 'You are functioning, but barely. You are surviving the day, not conquering it. You get your work done, but it takes everything you have. By 5:00 PM, your mental battery is at 0%, leaving nothing for your personal life, your fitness, or your ambitions. You are operating at less than half your cognitive capacity, and you have normalized it.',
-        agitation: 'This is the most dangerous zone. Because you are "getting by," you don\'t realize how much you are losing. You think the afternoon brain fog is normal. You think needing a second coffee to finish the day is just part of the job. It\'s not. It\'s a leak. Your brain is an engine burning dirty fuel. You are stacking micro-stressors all day, every notification, every context switch, every carb-heavy snack, adding wear and tear to your nervous system. You sit down to do deep work, but part of your brain is still stuck on the last task. You try to rest, but you scroll through high-speed content, feeding your brain stress disguised as entertainment. You wake up feeling like you never slept. You are running an emergency-mode operating system on a body built for peak performance. And the bill for that debt is coming due.',
+        problem: 'You are functioning, but barely. You are surviving the day, not conquering it. By 5:00 PM your mental battery is at 0%, leaving nothing for your personal life, your fitness, or your ambitions. You are operating at less than half your cognitive capacity, and you have normalized it. This is the most dangerous zone, because "getting by" hides how much you\'re losing. Every notification, context switch, and carb-heavy snack is wear and tear on your nervous system, and you are running an emergency-mode operating system on a body built for peak performance. The bill for that debt is coming due.',
         solution: 'You don\'t need a radical overhaul. You need to seal the leaks. The Phoenix Protocol identifies the four exact gaps where your energy is bleeding out, and gives you the clinical protocols to close them.',
         bullets: [
           'Protocol 3.0: The Metabolic Steady-State Diet to stop the blood sugar rollercoaster causing your afternoon slumps.',
@@ -588,9 +586,8 @@
       },
       C: {
         score: 75, subheadline: 'Classification: SUBOPTIMAL PERFORMANCE.', toneClass: 'text-zinc-300',
-        problem: 'You are ahead of the curve. You sleep decently. You manage your focus reasonably well. But you are still leaving 25% of your cognitive power on the table. In the top 1%, 25% is the difference between leading the market and becoming irrelevant. You are not broken, but your system is unoptimized.',
-        agitation: 'The gap between 75% and 100% is not closed by trying harder. It\'s closed by precision. Right now, you are still making subtle, costly errors. You likely drink your coffee too early, fighting your body\'s natural cortisol spike, making your caffeine less effective over time. You likely keep your phone in the room when you work, sacrificing deep work for shallow task-switching. And when you hit a wall, you push through it, instead of using the biological mechanisms designed to reset your brain\'s dopamine levels. You are operating a highly tuned machine, but you are using factory settings. The algorithms of the modern world are still mining your attention, just slower than they mine the rest of the population.',
-        solution: 'To break past 75%, you don\'t need motivation. You need the frameworks of the top 1%. The Phoenix Protocol is the final optimization. It takes you from "doing fine" to operating at absolute peak biological capacity.',
+        problem: 'You are ahead of the curve. You sleep decently and manage your focus reasonably well. But you are still leaving 25% of your cognitive power on the table, and in the top 1%, that 25% is the difference between leading the market and becoming irrelevant. The gap isn\'t closed by trying harder, it\'s closed by precision. You likely drink coffee too early, fighting your body\'s natural cortisol spike, and keep your phone in the room while you work, sacrificing deep work for shallow task-switching. You are operating a finely tuned machine on factory settings.',
+        solution: 'To break past 75%, you don\'t need motivation. You need the frameworks of the top 1%. The Phoenix Protocol is the final optimization, taking you from "doing fine" to operating at absolute peak biological capacity.',
         bullets: [
           'The Decaffeination Reset Protocol: To reset your tolerance so caffeine actually works again.',
           'Strategic Carbohydrate Backloading: To use food as a tool for daytime focus and nighttime recovery.',
@@ -790,9 +787,6 @@
           <div class="result-section mb-8" data-delay="200">
             <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">${result.problem}</p>
           </div>
-          <div class="result-section mb-8" data-delay="400">
-            <p class="text-sm sm:text-base leading-relaxed text-zinc-400 mb-6">${result.agitation}</p>
-          </div>
           <div class="result-section" data-delay="600">
             <p class="text-sm sm:text-base leading-relaxed text-zinc-200 mb-5">${result.solution}</p>
             <ul class="space-y-3 mb-8">
@@ -806,16 +800,14 @@
           </div>
 
           <div class="result-section" data-delay="800">
-            <div class="border-t border-[#2a2a2a] pt-8 mt-8">
-              <p class="text-center text-base sm:text-lg font-medium text-zinc-200 italic mb-6 leading-relaxed">${result.ctaText}</p>
+            <div class="mt-8">
               <div class="flex justify-center">
                 <a href="https://app.lava.top/products/275cbbaf-565a-42dd-85b5-6c9ef9037bab" class="cta-btn">
                   <span>Unlock The Phoenix Protocol</span>
-                  <span class="mono text-xs opacity-80">$20</span>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </a>
               </div>
-              <p class="text-center mono text-[10px] tracking-[0.2em] text-zinc-700 mt-5">SINGLE PAYMENT // IMMEDIATE ACCESS</p>
+              <p class="text-center mono text-[10px] tracking-[0.2em] text-zinc-700 mt-5">IMMEDIATE ACCESS</p>
             </div>
           </div>
         </div>
