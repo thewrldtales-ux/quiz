@@ -325,104 +325,141 @@
     .diag-line { background: linear-gradient(90deg, var(--accent), transparent); }
 
     /* ── Kit (ConvertKit) Email Capture Form ── */
+    /* Kit's own script injects a <style data-uid="f5ac391feb"> block with matching
+       attribute-selector specificity, so we mirror that specificity here to reliably
+       win the cascade regardless of script load order. */
     .kit-gate-wrap {
       position: relative;
       max-width: 32rem;
       margin: 0 auto;
     }
-    .formkit-form {
+    .kit-gate-wrap .formkit-form,
+    .formkit-form[data-uid="f5ac391feb"] {
       font-family: 'Inter', system-ui, sans-serif !important;
+      max-width: 100% !important;
     }
-    .formkit-form [data-style="clean"] {
-      width: 100%;
+    .kit-gate-wrap .formkit-form [data-style="clean"],
+    .formkit-form[data-uid="f5ac391feb"] [data-style="clean"] {
+      width: 100% !important;
+      padding: 0 !important;
     }
-    .formkit-fields {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+    .kit-gate-wrap .formkit-fields,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-fields {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.75rem !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      list-style: none !important;
     }
-    .formkit-field {
-      width: 100%;
+    .kit-gate-wrap .formkit-field,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-field,
+    .kit-gate-wrap .formkit-submit,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit {
+      width: 100% !important;
+      flex: 1 1 100% !important;
+      margin: 0 !important;
     }
-    .formkit-input {
-      width: 100%;
-      background: #0d0d0d;
-      border: 1px solid #2a2a2a;
-      color: #e5e5e5;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      letter-spacing: 0.02em;
-      padding: 1rem 1.125rem;
-      border-radius: 0;
-      outline: none;
-      transition: border-color 0.2s ease, background-color 0.2s ease;
+    .kit-gate-wrap .formkit-input,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-input {
+      width: 100% !important;
+      background: #0d0d0d !important;
+      background-image: none !important;
+      border: 1px solid #2a2a2a !important;
+      color: #e5e5e5 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.875rem !important;
+      letter-spacing: 0.02em !important;
+      padding: 1rem 1.125rem !important;
+      border-radius: 0 !important;
+      outline: none !important;
+      transition: border-color 0.2s ease, background-color 0.2s ease !important;
     }
-    .formkit-input::placeholder {
-      color: #6b6b6b;
+    .kit-gate-wrap .formkit-input::placeholder,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-input::placeholder {
+      color: #6b6b6b !important;
+      opacity: 1 !important;
     }
-    .formkit-input:focus {
-      border-color: #960018;
-      background: rgba(150, 0, 24, 0.05);
+    .kit-gate-wrap .formkit-input:focus,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-input:focus {
+      border-color: #960018 !important;
+      background: rgba(150, 0, 24, 0.05) !important;
     }
-    .formkit-submit {
-      appearance: none;
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 1.125rem 2rem;
-      background: linear-gradient(135deg, #960018 0%, #800020 100%);
-      color: #ffffff;
-      font-family: 'Inter', system-ui, sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      border: 1px solid rgba(150, 0, 24, 0.6);
-      box-shadow: 0 8px 24px -8px rgba(150, 0, 24, 0.5);
-      cursor: pointer;
-      border-radius: 0;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .kit-gate-wrap .formkit-submit,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit {
+      appearance: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.75rem !important;
+      padding: 0 !important;
+      background: linear-gradient(135deg, #960018 0%, #800020 100%) !important;
+      color: #ffffff !important;
+      font-family: 'Inter', system-ui, sans-serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em !important;
+      font-size: 0.85rem !important;
+      text-transform: uppercase !important;
+      border: 1px solid rgba(150, 0, 24, 0.6) !important;
+      box-shadow: 0 8px 24px -8px rgba(150, 0, 24, 0.5) !important;
+      cursor: pointer !important;
+      border-radius: 0 !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
     }
-    .formkit-submit:hover {
+    .kit-gate-wrap .formkit-submit > span,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit > span {
+      padding: 1.125rem 2rem !important;
+    }
+    .kit-gate-wrap .formkit-submit:hover,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px -8px rgba(150, 0, 24, 0.7);
+      box-shadow: 0 12px 32px -8px rgba(150, 0, 24, 0.7) !important;
     }
-    .formkit-submit:active {
+    .kit-gate-wrap .formkit-submit:active,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:active {
       transform: translateY(0);
     }
-    .formkit-submit:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
+    .kit-gate-wrap .formkit-submit:disabled,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:disabled {
+      opacity: 0.5 !important;
+      cursor: not-allowed !important;
+      transform: none !important;
     }
-    .formkit-alert {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      padding: 0.875rem 1rem;
-      margin-bottom: 0.75rem;
-      border-radius: 0;
+    .kit-gate-wrap .formkit-alert,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-alert {
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.75rem !important;
+      letter-spacing: 0.05em !important;
+      padding: 0.875rem 1rem !important;
+      margin: 0 0 0.75rem 0 !important;
+      border-radius: 0 !important;
     }
-    .formkit-alert-error {
-      background: rgba(150, 0, 24, 0.1);
-      border: 1px solid rgba(150, 0, 24, 0.4);
-      color: #ff8a8a;
+    .kit-gate-wrap .formkit-alert-error,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-alert-error {
+      background: rgba(150, 0, 24, 0.1) !important;
+      border: 1px solid rgba(150, 0, 24, 0.4) !important;
+      color: #ff8a8a !important;
     }
-    .formkit-alert-success {
-      background: rgba(34, 150, 60, 0.1);
-      border: 1px solid rgba(34, 150, 60, 0.4);
-      color: #7ee2a0;
+    .kit-gate-wrap .formkit-alert-success,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-alert-success {
+      background: rgba(34, 150, 60, 0.1) !important;
+      border: 1px solid rgba(34, 150, 60, 0.4) !important;
+      color: #7ee2a0 !important;
     }
-    .formkit-spinner {
-      display: inline-flex;
+    .kit-gate-wrap .formkit-spinner,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-spinner {
+      display: inline-flex !important;
     }
-    .formkit-spinner div {
+    .kit-gate-wrap .formkit-spinner div,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-spinner div {
+      background: #ffffff !important;
+    }
+    /* Hide the "Built with Kit" badge to keep the design clean */
+    .kit-gate-wrap .formkit-powered-by-convertkit-container,
+    .formkit-form[data-uid="f5ac391feb"] .formkit-powered-by-convertkit-container {
+      display: none !important;
+    }
       background: #ffffff;
     }
     .hidden-fade { display: none; }
@@ -612,22 +649,8 @@
             <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-md mx-auto">Enter your email to unlock your Energy Score and full system breakdown.</p>
           </div>
 
-          <!-- Kit (ConvertKit) Form — uses Kit's own script (ck.5.js) to handle real submission/validation/error states, so it reliably reaches your subscriber list. Our custom CSS below overrides Kit's default look to match this page. -->
+          <!-- Kit (ConvertKit) Form — Kit's own script (ck.5.js) renders this form and handles real submission, so it reliably reaches your subscriber list. We restyle Kit's rendered output via CSS below (see .kit-gate-wrap rules) to match this page's design, and relabel the button via JS once Kit renders it. -->
           <script async data-uid="f5ac391feb" src="https://thekavoir.kit.com/f5ac391feb/index.js"></script>
-          <form action="https://app.kit.com/forms/9762773/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="9762773" data-uid="f5ac391feb" data-format="inline" data-version="5" id="kit-gate-form">
-            <div data-style="clean">
-              <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
-              <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields">
-                <div class="formkit-field">
-                  <input class="formkit-input" name="email_address" aria-label="Email Address" placeholder="Email address" required type="email">
-                </div>
-                <button data-element="submit" class="formkit-submit formkit-submit">
-                  <div class="formkit-spinner"><div></div><div></div><div></div></div>
-                  <span>Unlock My Report</span>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <p class="text-center mono text-[10px] tracking-[0.2em] text-zinc-700 mt-5">NO SPAM. UNSUBSCRIBE ANYTIME.</p>
         </div>
@@ -897,9 +920,6 @@
       gateState.classList.remove('hidden-fade');
       gateState.classList.add('q-enter');
 
-      const gateForm = document.getElementById('kit-gate-form');
-      if (!gateForm) return;
-
       let advanced = false;
       function advanceToResult() {
         if (advanced) return;
@@ -912,32 +932,58 @@
         }, 250);
       }
 
-      // Kit's own script (ck.5.js) intercepts the real submit, validates the email,
-      // and POSTs to Kit's API. On success it adds the "formkit-alert-success" class
-      // to the alert box (or swaps in a success message). We watch for that signal
-      // and only advance once Kit confirms the subscription actually went through.
-      const alertBox = gateForm.querySelector('[data-element="errors"]');
-      if (alertBox) {
-        const observer = new MutationObserver(() => {
-          if (alertBox.classList.contains('formkit-alert-success')) {
-            observer.disconnect();
-            advanceToResult();
-          }
-        });
-        observer.observe(alertBox, { attributes: true, attributeFilter: ['class'], childList: true, subtree: true });
-      }
+      const wrap = document.querySelector('.kit-gate-wrap');
+      if (!wrap) return;
 
-      // Fallback: Kit's script also replaces the whole form with a success message
-      // in some configurations, so watch the form's parent for that swap too.
-      const formParent = gateForm.parentElement;
-      if (formParent) {
-        const parentObserver = new MutationObserver(() => {
-          if (!document.body.contains(gateForm) || formParent.querySelector('.formkit-alert-success')) {
-            parentObserver.disconnect();
-            advanceToResult();
-          }
-        });
-        parentObserver.observe(formParent, { childList: true, subtree: true });
+      // Kit's script (ck.5.js) renders the actual <form> asynchronously after the
+      // script tag loads, so we poll briefly until it appears in the DOM rather
+      // than assuming it's already there.
+      let attempts = 0;
+      const maxAttempts = 40; // ~10s at 250ms
+      const pollInterval = setInterval(() => {
+        attempts++;
+        const gateForm = wrap.querySelector('form.formkit-form[data-uid="f5ac391feb"]');
+
+        if (gateForm) {
+          clearInterval(pollInterval);
+          wireGateForm(gateForm);
+        } else if (attempts >= maxAttempts) {
+          clearInterval(pollInterval);
+        }
+      }, 250);
+
+      function wireGateForm(gateForm) {
+        // Relabel Kit's default "Subscribe" button text to match our copy.
+        const submitLabel = gateForm.querySelector('[data-element="submit"] > span:last-child');
+        if (submitLabel) submitLabel.textContent = 'Unlock My Report';
+
+        // Kit's script intercepts the real submit, validates the email, and POSTs
+        // to Kit's API. On success it adds "formkit-alert-success" to the alert box
+        // (or swaps in a success message). We watch for that signal and only advance
+        // once Kit confirms the subscription actually went through.
+        const alertBox = gateForm.querySelector('[data-element="errors"]');
+        if (alertBox) {
+          const observer = new MutationObserver(() => {
+            if (alertBox.classList.contains('formkit-alert-success')) {
+              observer.disconnect();
+              advanceToResult();
+            }
+          });
+          observer.observe(alertBox, { attributes: true, attributeFilter: ['class'], childList: true, subtree: true });
+        }
+
+        // Fallback: Kit's script sometimes replaces the whole form with a success
+        // message instead, so watch the form's parent for that swap too.
+        const formParent = gateForm.parentElement;
+        if (formParent) {
+          const parentObserver = new MutationObserver(() => {
+            if (!document.body.contains(gateForm) || formParent.querySelector('.formkit-alert-success')) {
+              parentObserver.disconnect();
+              advanceToResult();
+            }
+          });
+          parentObserver.observe(formParent, { childList: true, subtree: true });
+        }
       }
     }
 
