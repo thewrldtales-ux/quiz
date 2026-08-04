@@ -324,142 +324,129 @@
     .corner-br { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; }
     .diag-line { background: linear-gradient(90deg, var(--accent), transparent); }
 
-    /* ── Kit (ConvertKit) Email Capture Form ── */
-    /* Kit's own script injects a <style data-uid="f5ac391feb"> block with matching
-       attribute-selector specificity, so we mirror that specificity here to reliably
-       win the cascade regardless of script load order. */
-    .kit-gate-wrap {
+    /* ── Email Capture Form (submits to Google Sheet) ── */
+    .gate-wrap {
       position: relative;
       max-width: 32rem;
       margin: 0 auto;
     }
-    .kit-gate-wrap .formkit-form,
-    .formkit-form[data-uid="f5ac391feb"] {
-      font-family: 'Inter', system-ui, sans-serif !important;
-      max-width: 100% !important;
+    .gate-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
     }
-    .kit-gate-wrap .formkit-form [data-style="clean"],
-    .formkit-form[data-uid="f5ac391feb"] [data-style="clean"] {
-      width: 100% !important;
-      padding: 0 !important;
+    .gate-input {
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid #2a2a2a;
+      color: #e5e5e5;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      letter-spacing: 0.02em;
+      padding: 1rem 1.125rem;
+      border-radius: 0;
+      outline: none;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
-    .kit-gate-wrap .formkit-fields,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-fields {
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 0.75rem !important;
-      width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      list-style: none !important;
+    .gate-input::placeholder { color: #6b6b6b; opacity: 1; }
+    .gate-input:focus { border-color: #960018; background: rgba(150, 0, 24, 0.05); }
+
+    .gate-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.15rem 0.1rem;
+      cursor: pointer;
     }
-    .kit-gate-wrap .formkit-field,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-field,
-    .kit-gate-wrap .formkit-submit,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit {
-      width: 100% !important;
-      flex: 1 1 100% !important;
-      margin: 0 !important;
+    .gate-consent input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      flex-shrink: 0;
+      width: 1.1rem;
+      height: 1.1rem;
+      margin-top: 0.15rem;
+      border: 1px solid #3a3a3a;
+      background: #0d0d0d;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
-    .kit-gate-wrap .formkit-input,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-input {
-      width: 100% !important;
-      background: #0d0d0d !important;
-      background-image: none !important;
-      border: 1px solid #2a2a2a !important;
-      color: #e5e5e5 !important;
-      font-family: 'JetBrains Mono', monospace !important;
-      font-size: 0.875rem !important;
-      letter-spacing: 0.02em !important;
-      padding: 1rem 1.125rem !important;
-      border-radius: 0 !important;
-      outline: none !important;
-      transition: border-color 0.2s ease, background-color 0.2s ease !important;
+    .gate-consent input[type="checkbox"]:checked {
+      border-color: #960018;
+      background: #960018;
     }
-    .kit-gate-wrap .formkit-input::placeholder,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-input::placeholder {
-      color: #6b6b6b !important;
-      opacity: 1 !important;
+    .gate-consent input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px; top: 1px;
+      width: 4px; height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
     }
-    .kit-gate-wrap .formkit-input:focus,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-input:focus {
-      border-color: #960018 !important;
-      background: rgba(150, 0, 24, 0.05) !important;
+    .gate-consent span {
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: #9a9a9a;
     }
-    .kit-gate-wrap .formkit-submit,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit {
-      appearance: none !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 0.75rem !important;
-      padding: 0 !important;
-      background: linear-gradient(135deg, #960018 0%, #800020 100%) !important;
-      color: #ffffff !important;
-      font-family: 'Inter', system-ui, sans-serif !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.12em !important;
-      font-size: 0.85rem !important;
-      text-transform: uppercase !important;
-      border: 1px solid rgba(150, 0, 24, 0.6) !important;
-      box-shadow: 0 8px 24px -8px rgba(150, 0, 24, 0.5) !important;
-      cursor: pointer !important;
-      border-radius: 0 !important;
-      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+
+    .gate-submit {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1.125rem 2rem;
+      background: linear-gradient(135deg, #960018 0%, #800020 100%);
+      color: #ffffff;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      border: 1px solid rgba(150, 0, 24, 0.6);
+      box-shadow: 0 8px 24px -8px rgba(150, 0, 24, 0.5);
+      cursor: pointer;
+      border-radius: 0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
     }
-    .kit-gate-wrap .formkit-submit > span,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit > span {
-      padding: 1.125rem 2rem !important;
+    .gate-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -8px rgba(150, 0, 24, 0.7); }
+    .gate-submit:active { transform: translateY(0); }
+    .gate-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .gate-alert {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 0.875rem 1rem;
+      margin: 0 0 0.75rem 0;
+      border-radius: 0;
+      display: none;
     }
-    .kit-gate-wrap .formkit-submit:hover,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px -8px rgba(150, 0, 24, 0.7) !important;
+    .gate-alert.show { display: block; }
+    .gate-alert-error {
+      background: rgba(150, 0, 24, 0.1);
+      border: 1px solid rgba(150, 0, 24, 0.4);
+      color: #ff8a8a;
     }
-    .kit-gate-wrap .formkit-submit:active,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:active {
-      transform: translateY(0);
+
+    .gate-spinner {
+      display: none;
+      align-items: center;
+      gap: 3px;
     }
-    .kit-gate-wrap .formkit-submit:disabled,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-submit:disabled {
-      opacity: 0.5 !important;
-      cursor: not-allowed !important;
-      transform: none !important;
+    .gate-spinner.show { display: inline-flex; }
+    .gate-spinner div {
+      width: 5px; height: 5px;
+      background: #ffffff;
+      border-radius: 50%;
+      animation: gate-spin 0.9s ease-in-out infinite;
     }
-    .kit-gate-wrap .formkit-alert,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-alert {
-      font-family: 'JetBrains Mono', monospace !important;
-      font-size: 0.75rem !important;
-      letter-spacing: 0.05em !important;
-      padding: 0.875rem 1rem !important;
-      margin: 0 0 0.75rem 0 !important;
-      border-radius: 0 !important;
-    }
-    .kit-gate-wrap .formkit-alert-error,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-alert-error {
-      background: rgba(150, 0, 24, 0.1) !important;
-      border: 1px solid rgba(150, 0, 24, 0.4) !important;
-      color: #ff8a8a !important;
-    }
-    .kit-gate-wrap .formkit-alert-success,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-alert-success {
-      background: rgba(34, 150, 60, 0.1) !important;
-      border: 1px solid rgba(34, 150, 60, 0.4) !important;
-      color: #7ee2a0 !important;
-    }
-    .kit-gate-wrap .formkit-spinner,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-spinner {
-      display: inline-flex !important;
-    }
-    .kit-gate-wrap .formkit-spinner div,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-spinner div {
-      background: #ffffff !important;
-    }
-    /* Hide the "Built with Kit" badge to keep the design clean */
-    .kit-gate-wrap .formkit-powered-by-convertkit-container,
-    .formkit-form[data-uid="f5ac391feb"] .formkit-powered-by-convertkit-container {
-      display: none !important;
-    }
+    .gate-spinner div:nth-child(2) { animation-delay: 0.15s; }
+    .gate-spinner div:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes gate-spin { 0%, 80%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
+
     .hidden-fade { display: none; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -636,7 +623,7 @@
 
       <!-- ════ Email Gate ════ -->
       <div id="gate-state" class="hidden-fade max-w-3xl mx-auto">
-        <div class="kit-gate-wrap">
+        <div class="gate-wrap">
           <div class="text-center mb-8">
             <div class="flex items-center justify-center gap-3 mb-6">
               <div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#960018]"></div>
@@ -647,20 +634,21 @@
             <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-md mx-auto">Enter your email to unlock your Energy Score and full system breakdown.</p>
           </div>
 
-          <!-- Kit (ConvertKit) Form — Kit's official embed script (this is the exact code Kit gave you). This is the simplest, most reliable way for Kit to actually receive submissions. Styled via CSS below to match this page. -->
-          <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
-          <form action="https://app.kit.com/forms/9762773/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="9762773" data-uid="f5ac391feb" data-format="inline" data-version="5" min-width="400 500 600 700 800">
-            <div data-style="clean">
-              <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
-              <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields">
-                <div class="formkit-field">
-                  <input class="formkit-input" name="email_address" aria-label="Email Address" placeholder="Email Address" required type="email">
-                </div>
-                <button data-element="submit" class="formkit-submit formkit-submit">
-                  <div class="formkit-spinner"><div></div><div></div><div></div></div>
-                  <span>Unlock My Report</span>
-                </button>
+          <!-- Subscription form — submits to the "Kavoir Subscribers" Google Sheet via a Google Apps Script Web App endpoint. See GOOGLE_SHEET_ENDPOINT below. -->
+          <form id="gate-form" novalidate>
+            <ul class="gate-alert gate-alert-error" id="gate-error"></ul>
+            <div class="gate-fields">
+              <div>
+                <input class="gate-input" id="gate-email" name="email_address" aria-label="Email Address" placeholder="Email Address" required type="email">
               </div>
+              <label class="gate-consent" for="gate-consent">
+                <input type="checkbox" id="gate-consent" name="consent" required>
+                <span>I consent to receive my Energy Operating Score results and related emails from Kavoir. You can unsubscribe anytime.</span>
+              </label>
+              <button type="submit" class="gate-submit" id="gate-submit">
+                <div class="gate-spinner" id="gate-spinner"><div></div><div></div><div></div></div>
+                <span>Unlock My Report</span>
+              </button>
             </div>
           </form>
 
@@ -928,6 +916,11 @@
       }, 1500);
     }
 
+    // Google Apps Script Web App URL bound to the "Kavoir Subscribers" Google Sheet.
+    // See the deployment instructions provided alongside this file — paste the
+    // deployment URL here after publishing the script.
+    const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzoRZn3Qr5C7lySM2qzaeJk2PMExKmtUGyZn_sPf4XjigTMLURfsR-dKELkYVob4_n95w/exec';
+
     function showGate() {
       gateState.classList.remove('hidden-fade');
       gateState.classList.add('q-enter');
@@ -944,36 +937,65 @@
         }, 250);
       }
 
-      const gateForm = document.querySelector('.kit-gate-wrap form.formkit-form[data-uid="f5ac391feb"]');
+      const gateForm = document.getElementById('gate-form');
+      const emailInput = document.getElementById('gate-email');
+      const consentInput = document.getElementById('gate-consent');
+      const submitBtn = document.getElementById('gate-submit');
+      const spinner = document.getElementById('gate-spinner');
+      const errorBox = document.getElementById('gate-error');
       if (!gateForm) return;
 
-      // Kit's script (ck.5.js) intercepts the real submit, validates the email, and
-      // POSTs to Kit's API. On success it adds "formkit-alert-success" to the alert
-      // box (or swaps in a success message). We watch for that signal and only
-      // advance once Kit confirms the subscription actually went through.
-      const alertBox = gateForm.querySelector('[data-element="errors"]');
-      if (alertBox) {
-        const observer = new MutationObserver(() => {
-          if (alertBox.classList.contains('formkit-alert-success')) {
-            observer.disconnect();
-            advanceToResult();
-          }
-        });
-        observer.observe(alertBox, { attributes: true, attributeFilter: ['class'], childList: true, subtree: true });
+      function showError(message) {
+        errorBox.textContent = message;
+        errorBox.classList.add('show');
+      }
+      function clearError() {
+        errorBox.textContent = '';
+        errorBox.classList.remove('show');
       }
 
-      // Fallback: Kit's script sometimes replaces the whole form with a success
-      // message instead, so watch the form's parent for that swap too.
-      const formParent = gateForm.parentElement;
-      if (formParent) {
-        const parentObserver = new MutationObserver(() => {
-          if (!document.body.contains(gateForm) || formParent.querySelector('.formkit-alert-success')) {
-            parentObserver.disconnect();
+      gateForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        clearError();
+
+        if (!emailInput.checkValidity()) {
+          showError('Please enter a valid email address.');
+          emailInput.focus();
+          return;
+        }
+        // Consent must be explicitly ticked before results are shown.
+        if (!consentInput.checked) {
+          showError('Please tick the consent checkbox to continue.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        spinner.classList.add('show');
+
+        // POST the subscriber straight into the "Kavoir Subscribers" Google Sheet
+        // via a Google Apps Script Web App endpoint. The endpoint is deployed with
+        // "no-cors" in mind: Apps Script web apps don't return CORS headers, so the
+        // response is opaque and we can't read it — a resolved fetch (no network
+        // error) is treated as success, which is the standard pattern for this setup.
+        fetch(GOOGLE_SHEET_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            email: emailInput.value.trim(),
+            consent: true,
+            timestamp: new Date().toISOString()
+          })
+        })
+          .then(() => {
             advanceToResult();
-          }
-        });
-        parentObserver.observe(formParent, { childList: true, subtree: true });
-      }
+          })
+          .catch(() => {
+            submitBtn.disabled = false;
+            spinner.classList.remove('show');
+            showError('Something went wrong. Please check your connection and try again.');
+          });
+      });
     }
 
     function showResult() {
@@ -998,6 +1020,10 @@
             <span class="absolute -top-2 -right-6 sm:-right-8 text-2xl sm:text-3xl font-bold text-[#960018]">%</span>
           </div>
           <p class="mt-6 text-base sm:text-lg font-semibold tracking-wide ${result.toneClass}">${result.subheadline}</p>
+          <p class="mt-5 text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
+            📩 Check your inbox for the full protocol — we just sent it to the email you entered.
+            <br>Don't see it after a few minutes? Check your <span class="text-zinc-300">spam or promotions folder</span>, it sometimes lands there.
+          </p>
         </div>
 
         <div class="relative border border-[#2a2a2a] bg-[#141414]/80 p-6 sm:p-10">
