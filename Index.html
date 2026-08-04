@@ -647,8 +647,22 @@
             <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-md mx-auto">Enter your email to unlock your Energy Score and full system breakdown.</p>
           </div>
 
-          <!-- Kit (ConvertKit) Form — Kit's own script (ck.5.js) renders this form and handles real submission, so it reliably reaches your subscriber list. We restyle Kit's rendered output via CSS below (see .kit-gate-wrap rules) to match this page's design, and relabel the button via JS once Kit renders it. -->
-          <script async data-uid="f5ac391feb" src="https://thekavoir.kit.com/f5ac391feb/index.js"></script>
+          <!-- Kit (ConvertKit) Form — Kit's official embed script (this is the exact code Kit gave you). This is the simplest, most reliable way for Kit to actually receive submissions. Styled via CSS below to match this page. -->
+          <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+          <form action="https://app.kit.com/forms/9762773/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="9762773" data-uid="f5ac391feb" data-format="inline" data-version="5" min-width="400 500 600 700 800">
+            <div data-style="clean">
+              <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+              <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields">
+                <div class="formkit-field">
+                  <input class="formkit-input" name="email_address" aria-label="Email Address" placeholder="Email Address" required type="email">
+                </div>
+                <button data-element="submit" class="formkit-submit formkit-submit">
+                  <div class="formkit-spinner"><div></div><div></div><div></div></div>
+                  <span>Unlock My Report</span>
+                </button>
+              </div>
+            </div>
+          </form>
 
           <p class="text-center mono text-[10px] tracking-[0.2em] text-zinc-700 mt-5">NO SPAM. UNSUBSCRIBE ANYTIME.</p>
         </div>
@@ -930,58 +944,35 @@
         }, 250);
       }
 
-      const wrap = document.querySelector('.kit-gate-wrap');
-      if (!wrap) return;
+      const gateForm = document.querySelector('.kit-gate-wrap form.formkit-form[data-uid="f5ac391feb"]');
+      if (!gateForm) return;
 
-      // Kit's script (ck.5.js) renders the actual <form> asynchronously after the
-      // script tag loads, so we poll briefly until it appears in the DOM rather
-      // than assuming it's already there.
-      let attempts = 0;
-      const maxAttempts = 40; // ~10s at 250ms
-      const pollInterval = setInterval(() => {
-        attempts++;
-        const gateForm = wrap.querySelector('form.formkit-form[data-uid="f5ac391feb"]');
+      // Kit's script (ck.5.js) intercepts the real submit, validates the email, and
+      // POSTs to Kit's API. On success it adds "formkit-alert-success" to the alert
+      // box (or swaps in a success message). We watch for that signal and only
+      // advance once Kit confirms the subscription actually went through.
+      const alertBox = gateForm.querySelector('[data-element="errors"]');
+      if (alertBox) {
+        const observer = new MutationObserver(() => {
+          if (alertBox.classList.contains('formkit-alert-success')) {
+            observer.disconnect();
+            advanceToResult();
+          }
+        });
+        observer.observe(alertBox, { attributes: true, attributeFilter: ['class'], childList: true, subtree: true });
+      }
 
-        if (gateForm) {
-          clearInterval(pollInterval);
-          wireGateForm(gateForm);
-        } else if (attempts >= maxAttempts) {
-          clearInterval(pollInterval);
-        }
-      }, 250);
-
-      function wireGateForm(gateForm) {
-        // Relabel Kit's default "Subscribe" button text to match our copy.
-        const submitLabel = gateForm.querySelector('[data-element="submit"] > span:last-child');
-        if (submitLabel) submitLabel.textContent = 'Unlock My Report';
-
-        // Kit's script intercepts the real submit, validates the email, and POSTs
-        // to Kit's API. On success it adds "formkit-alert-success" to the alert box
-        // (or swaps in a success message). We watch for that signal and only advance
-        // once Kit confirms the subscription actually went through.
-        const alertBox = gateForm.querySelector('[data-element="errors"]');
-        if (alertBox) {
-          const observer = new MutationObserver(() => {
-            if (alertBox.classList.contains('formkit-alert-success')) {
-              observer.disconnect();
-              advanceToResult();
-            }
-          });
-          observer.observe(alertBox, { attributes: true, attributeFilter: ['class'], childList: true, subtree: true });
-        }
-
-        // Fallback: Kit's script sometimes replaces the whole form with a success
-        // message instead, so watch the form's parent for that swap too.
-        const formParent = gateForm.parentElement;
-        if (formParent) {
-          const parentObserver = new MutationObserver(() => {
-            if (!document.body.contains(gateForm) || formParent.querySelector('.formkit-alert-success')) {
-              parentObserver.disconnect();
-              advanceToResult();
-            }
-          });
-          parentObserver.observe(formParent, { childList: true, subtree: true });
-        }
+      // Fallback: Kit's script sometimes replaces the whole form with a success
+      // message instead, so watch the form's parent for that swap too.
+      const formParent = gateForm.parentElement;
+      if (formParent) {
+        const parentObserver = new MutationObserver(() => {
+          if (!document.body.contains(gateForm) || formParent.querySelector('.formkit-alert-success')) {
+            parentObserver.disconnect();
+            advanceToResult();
+          }
+        });
+        parentObserver.observe(formParent, { childList: true, subtree: true });
       }
     }
 
