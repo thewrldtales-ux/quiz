@@ -94,7 +94,7 @@
 
     /* ── GPU-Accelerated Animations ── */
     .will-animate { will-change: transform, opacity; }
-    
+
     .welcome-enter { animation: welcomeEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes welcomeEnter {
       from { opacity: 0; transform: translateY(20px); }
@@ -158,7 +158,7 @@
     }
     .start-btn:active, .cta-btn:active { transform: translateY(0); }
     .start-btn-arrow { transition: transform 0.2s ease; }
-    .start-btn:hover .start-btn-arrow { transform: translateX(4px); }
+    .start-btn:hover .start-btn-arrow, .cta-btn:hover .start-btn-arrow { transform: translateX(4px); }
 
     /* ── Battery Graphic ── */
     .battery-wrap {
@@ -183,7 +183,7 @@
     }
     .battery-header { border-bottom: 1px solid #1f1f1f; }
     .battery-footer { border-top: 1px solid #1f1f1f; margin-top: 12px; padding-top: 12px; }
-    
+
     .battery-screen {
       background: #050505; border: 1px solid #1f1f1f;
       aspect-ratio: 1 / 0.92;
@@ -202,7 +202,7 @@
       0% { transform: translateY(0); opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
-      100% { transform: translateY(280px); opacity: 0; } /* Max height approximation for GPU */
+      100% { transform: translateY(280px); opacity: 0; }
     }
 
     .battery-questions {
@@ -313,6 +313,20 @@
       transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .result-section.revealed { opacity: 1; transform: translateY(0); }
+
+    /* ── Highlighted CTA Box ── */
+    .cta-box {
+      background: rgba(150, 0, 24, 0.05);
+      border: 1px solid rgba(150, 0, 24, 0.55);
+      box-shadow: 0 0 45px -10px rgba(150, 0, 24, 0.35);
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #960018, transparent);
+    }
 
     /* ── UI Bits ── */
     .corner {
@@ -503,11 +517,11 @@
             </div>
 
             <h1 class="welcome-title text-white mb-7">
-              How Much <span class="accent">Energy</span> Do You Actually Have Left by <span class="accent">2PM?</span>?
+              How Much <span class="accent">Energy</span> Do You Actually Have Left by <span class="accent">2PM</span>?
             </h1>
 
             <p class="text-base sm:text-lg text-zinc-400 leading-relaxed mb-10 max-w-xl">
-              5 questions. About 60 seconds. You get a precise <span class="text-zinc-200 font-medium">Energy Score (0-100%)</span>, which of the four systems is leaking the most, and how to fix it in 7 days.
+              5 questions. About 60 seconds. Your <span class="text-zinc-200 font-medium">Energy Operating Score (0–100%)</span>, where the energy is actually leaking, and the 7-day fix.
             </p>
 
             <div class="mb-6">
@@ -634,7 +648,6 @@
             <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-md mx-auto">Enter your email to unlock your Energy Score and full system breakdown.</p>
           </div>
 
-          <!-- Subscription form — submits to the "Kavoir Subscribers" Google Sheet via a Google Apps Script Web App endpoint. See GOOGLE_SHEET_ENDPOINT below. -->
           <form id="gate-form" novalidate>
             <ul class="gate-alert gate-alert-error" id="gate-error"></ul>
             <div class="gate-fields">
@@ -688,7 +701,7 @@
         answers: [
           { text: 'I hit my stride. That\'s my most productive time.', points: 0 },
           { text: 'I feel a slight dip, but a glass of water fixes it.', points: 1 },
-          { text: 'I hit a wall. I need a strong coffee or an energy drink to survive.', points: 2 },
+          { text: 'I hit a wall. The afternoon coffee is the only thing that gets me to 5.', points: 2 },
           { text: 'Completely useless. Staring at a screen, reading the same sentence five times.', points: 3 },
         ]
       },
@@ -703,13 +716,13 @@
         ]
       },
       {
-        label: 'DIAGNOSTIC PROBE 04', domain: 'DEEP WORK CAPACITY',
-        text: 'You sit down to do deep, focused work. What happens?',
+        label: 'DIAGNOSTIC PROBE 04', domain: 'CAFFEINE TIMING',
+        text: 'When does your first coffee of the day actually land?',
         answers: [
-          { text: 'I lock in for 90+ minutes without noticing time pass.', points: 0 },
-          { text: 'I focus well, but usually need a break after 45-60 minutes.', points: 1 },
-          { text: 'I get distracted every 15 minutes by emails, tabs, or my phone.', points: 2 },
-          { text: 'I can\'t focus at all. My brain feels like static. I avoid the hard work.', points: 3 },
+          { text: 'First thing. Before I\'m fully awake.', points: 3 },
+          { text: 'Within the first half hour or so.', points: 2 },
+          { text: 'An hour or two after I\'m up.', points: 1 },
+          { text: 'I don\'t really drink coffee.', points: 0 },
         ]
       },
       {
@@ -726,33 +739,36 @@
 
     const results = {
       A: {
-        score: 22, subheadline: 'Classification: CRITICAL SYSTEM FAILURE.', toneClass: 'text-[#960018]',
-        problem: 'You are running on fumes, and your hardware is taking damage. You wake up tired, crash hard at 2 PM, and by evening your cognitive capacity resembles someone legally intoxicated. This is not "getting older," it\'s a system bleeding energy through four major gaps simultaneously, and coffee, water, and willpower cannot fix a mechanical failure. You are jamming the lock on your fatigue signals with caffeine, eating meals that switch off your brain\'s "awake" chemicals, and carrying a device engineered to mine your attention. You are driving with the emergency brake engaged, pouring in more fuel, and wondering why the engine keeps burning out.',
-        solution: 'You need to stop plugging holes and rebuild the system. This is not about mantras or vision boards. It is about giving your biology the right inputs at the right times.',
+        score: 22, subheadline: 'Classification: RUNNING ON RESERVES.', toneClass: 'text-[#960018]',
+        bridge: '22% is a reading, not a verdict. It\'s also the exact pattern the Protocol was built to reverse.',
+        problem: 'Your answers sketch a day running on emergency power. You\'re not really human until noon. The afternoon goes to reading the same sentence five times. By evening — the only part of the day the people at home actually get — the tank is empty. This isn\'t age, and it isn\'t discipline. You\'re running emergency-mode software on hardware built for steady output, and you\'ve run it so long it feels normal. The reserves you\'re burning now are the same ones you\'ll want at 60.',
+        solution: 'What a 5-question diagnostic can\'t show you: which leak does the most damage. It sees the crash, not the cause. The four inputs behind it — light, coffee timing, food timing, attention — each run on their own schedule, and at this reading most of them are running wrong. You don\'t need an overhaul. You need the repair order: four inputs, rescheduled over 7 days, one at a time. The crash was assembled before noon. It comes apart the same way.',
         bullets: [
-          'Get 10 minutes of direct light and fluids within 30 minutes of waking to force your circadian rhythm online.',
-          'Delay your first caffeine intake by 90 minutes after waking to prevent the 2 PM crash.',
-          'Keep your phone out of arm\'s reach during work blocks to protect your attention span.',
+          'The wake-up sequence. What\'s behind "not human until noon" — and the morning that ends it. (p. 18)',
+          'The coffee timing error. The one habit scheduling your 2PM wall. (p. 26)',
+          'The lunch switch. Why the food coma is a switch, not a mystery. (p. 36)',
         ],
       },
       B: {
         score: 48, subheadline: 'Classification: SYSTEM COMPROMISED.', toneClass: 'text-[#960018]',
-        problem: 'You are functioning, but barely. You are surviving the day, not conquering it. By 5:00 PM your mental battery is at 0%, leaving nothing for your personal life, your fitness, or your ambitions. You are operating at less than half your cognitive capacity, and you have normalized it. This is the most dangerous zone, because "getting by" hides how much you\'re losing. Every notification, context switch, and carb-heavy snack is wear and tear on your nervous system, and you are running an emergency-mode operating system on a body built for peak performance. The bill for that debt is coming due.',
-        solution: 'You don\'t need a radical overhaul. You need to seal the leaks. Here is where your energy is bleeding out, and what closes each gap.',
+        bridge: 'The leaks are sealable. That\'s the entire product.',
+        problem: 'You\'re functioning. That\'s the trap — functioning is easy to normalize. By 5PM the battery reads empty, and the evening runs on whatever\'s left. Nothing. You\'ve made peace with it. Most men have. But 48% isn\'t a personality. It\'s a measurement: four inputs, each a few degrees off schedule. Light. Coffee timing. Food timing. Attention. Any one of them alone costs you the afternoon. Together, they schedule the crash. And the middle zone hides its own danger — nothing is broken yet, so nothing forces the fix. The men who slide from 48% to 22% never decided to. They just ran the same schedule for ten more years.',
+        solution: 'You don\'t need a radical overhaul. You need the leaks sealed. Four inputs, rescheduled over 7 days, about 20 minutes a day.',
         bullets: [
-          'Stabilize meals to avoid the blood sugar swings behind your afternoon slumps.',
-          'Build a short, structured rest period into your afternoon to reset focus before it collapses.',
-          'Change one habit at a time over the next 7 days rather than overhauling everything at once.',
+          'The 2PM wall. What\'s behind it, and why it was assembled before noon. (p. 26)',
+          'The meal timing that ends the 5PM empty tank. (p. 36)',
+          'The 7-day install. One input at a time, so nothing stacks. (p. 56)',
         ],
       },
       C: {
-        score: 75, subheadline: 'Classification: SUBOPTIMAL PERFORMANCE.', toneClass: 'text-zinc-300',
-        problem: 'You are ahead of the curve. You sleep decently and manage your focus reasonably well. But you are still leaving 25% of your cognitive power on the table, and in the top 1%, that 25% is the difference between leading the market and becoming irrelevant. The gap isn\'t closed by trying harder, it\'s closed by precision. You likely drink coffee too early, fighting your body\'s natural cortisol spike, and keep your phone in the room while you work, sacrificing deep work for shallow task-switching. You are operating a finely tuned machine on factory settings.',
-        solution: 'To break past 75%, you don\'t need motivation. You need precision. Here is what closes the final gap.',
+        score: 75, subheadline: 'Classification: SYSTEM NOMINAL.', toneClass: 'text-zinc-300',
+        bridge: 'Maintenance is cheaper than repair.',
+        problem: 'Your answers point to a machine that mostly runs right. At 75% you\'re ahead of most men your age, and that isn\'t luck — something in how you run your week is already working. But two things stay invisible at this depth. The quiet leaks: coffee landing inside your natural wake-up window, carbs landing at the wrong meal. Neither shows up here — the full 10-question audit inside the manual is where those live. And the schedule: whatever\'s working now is working without one. You\'re running on habits that happen to be right. The men who hold this reading through their fifties aren\'t more disciplined than you. They run maintenance. That\'s the whole difference.',
+        solution: 'You don\'t need fixing. You need the maintenance schedule, while everything still works.',
         bullets: [
-          'Cycle off caffeine periodically so your tolerance resets and it actually works again.',
-          'Shift more carbohydrates to your evening meal to support daytime focus and nighttime recovery.',
-          'Build in regular breaks from high-stimulation input so deep work feels effortless again.',
+          'The full 10-point audit. What this diagnostic sampled from. (p. 11)',
+          'The caffeine timing check. The leak a 5-question quiz can\'t see. (p. 26)',
+          'The maintenance install. Seven days, one piece at a time. (p. 56)',
         ],
       }
     };
@@ -869,7 +885,7 @@
     function showLoading() {
       progressBar.style.width = '100%';
       questionCounter.textContent = 'Q.05 / 05';
-      
+
       document.querySelectorAll('.seg').forEach(seg => seg.style.backgroundColor = '#960018');
 
       quizContainer.classList.add('hidden-fade');
@@ -918,9 +934,10 @@
     }
 
     // Google Apps Script Web App URL bound to the "Kavoir Subscribers" Google Sheet.
-    // See the deployment instructions provided alongside this file — paste the
-    // deployment URL here after publishing the script.
-    const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxUEKXLwaCG3Q-Md2xGnOgnRdZlwqS9CsMEmgsdDhG4dm3OsXSs_k6J2siBHe5GjLV9UA/exec';
+    const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyl1-PtHe7Koi6Ocb6PyBErDbMGCnd8MLR0dqRuMK-9-IveuK_e_YsqhKf205JC76pU/exec';
+
+    // Live LavaTop checkout URL.
+    const LAVATOP_URL = 'https://app.lava.top/products/275cbbaf-565a-42dd-85b5-6c9ef9037bab';
 
     function showGate() {
       gateState.classList.remove('hidden-fade');
@@ -964,7 +981,6 @@
           emailInput.focus();
           return;
         }
-        // Consent must be explicitly ticked before results are shown.
         if (!consentInput.checked) {
           showError('Please tick the consent checkbox to continue.');
           return;
@@ -973,11 +989,6 @@
         submitBtn.disabled = true;
         spinner.classList.add('show');
 
-        // POST the subscriber straight into the "Kavoir Subscribers" Google Sheet
-        // via a Google Apps Script Web App endpoint. The endpoint is deployed with
-        // "no-cors" in mind: Apps Script web apps don't return CORS headers, so the
-        // response is opaque and we can't read it — a resolved fetch (no network
-        // error) is treated as success, which is the standard pattern for this setup.
         fetch(GOOGLE_SHEET_ENDPOINT, {
           method: 'POST',
           mode: 'no-cors',
@@ -1023,31 +1034,51 @@
           <p class="mt-6 text-base sm:text-lg font-semibold tracking-wide ${result.toneClass}">${result.subheadline}</p>
         </div>
 
-        <div class="relative border border-[#2a2a2a] bg-[#141414]/80 p-6 sm:p-10">
+        <div class="relative border border-[#2a2a2a] bg-[#141414]/80 p-6 sm:p-10 mb-8">
           <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
           <div class="corner corner-bl"></div><div class="corner corner-br"></div>
 
-          <div class="result-section mb-8" data-delay="200">
-            <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">${result.problem}</p>
+          <div class="result-section mb-6" data-delay="200">
+            <p class="text-sm sm:text-base leading-relaxed text-zinc-300">${result.problem}</p>
           </div>
           <div class="result-section" data-delay="600">
-            <p class="text-sm sm:text-base leading-relaxed text-zinc-200 mb-5">${result.solution}</p>
-            <ul class="space-y-3 mb-2">
-              ${result.bullets.map((b, i) => `
-                <li class="flex items-start gap-3 group">
-                  <span class="mono text-[10px] tracking-wider text-[#960018] mt-1 shrink-0">[${String(i + 1).padStart(2, '0')}]</span>
-                  <span class="text-sm sm:text-base text-zinc-300 leading-relaxed">${b}</span>
-                </li>
-              `).join('')}
-            </ul>
+            <p class="text-sm sm:text-base leading-relaxed text-zinc-200">${result.solution}</p>
           </div>
         </div>
 
-        <div class="result-section text-center mt-8" data-delay="900">
-          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto leading-relaxed">
-            📩 Check your inbox for the full protocol. We just sent it to the email you entered.
-            <br>Don't see it after a few minutes? Check your <span class="text-zinc-300">spam or promotions folder</span>, it sometimes lands there.
-          </p>
+        <div class="result-section" data-delay="900">
+          <div class="relative cta-box p-6 sm:p-10">
+            <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+
+            <div class="flex items-center justify-center gap-3 mb-7">
+              <div class="h-[1px] w-8 bg-gradient-to-r from-transparent to-[#960018]"></div>
+              <span class="mono text-[10px] sm:text-xs tracking-[0.3em] text-[#960018]">THE REPAIR ORDER</span>
+              <div class="h-[1px] w-8 bg-gradient-to-l from-transparent to-[#960018]"></div>
+            </div>
+
+            <ul class="space-y-3 mb-7">
+              ${result.bullets.map((b, i) => `
+                <li class="flex items-start gap-3 group">
+                  <span class="mono text-[10px] tracking-wider text-[#960018] mt-1 shrink-0">[${String(i + 1).padStart(2, '0')}]</span>
+                  <span class="text-sm sm:text-base text-zinc-200 leading-relaxed">${b}</span>
+                </li>
+              `).join('')}
+            </ul>
+
+            <div class="h-[1px] w-full bg-[#1f1f1f] mb-6"></div>
+
+            <p class="text-sm sm:text-base text-zinc-200 leading-relaxed text-center max-w-md mx-auto mb-8">${result.bridge}</p>
+
+            <div class="text-center">
+              <a href="${LAVATOP_URL}" class="cta-btn">
+                <span>Get the Phoenix Protocol</span>
+                <svg class="start-btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+                  <path d="M5 12h14M13 6l6 6-6 6"/>
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       `;
 
